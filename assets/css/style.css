@@ -1,0 +1,69 @@
+/************ Global Styling ************/
+body {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	background-color: #bbc3ce;
+}
+
+h1 {
+	text-align: center;
+	color: #fff;
+}
+
+a {
+	text-decoration: none;
+}
+
+
+
+/************ Buttons ************/
+#buttons-view {
+	margin: 10px;
+}
+
+.celebrity-button {
+	margin-right: 10px;
+	margin-top: 5px;
+	border-radius: 5px;
+	color: #fff;
+	background-color: #001d4c;
+	padding: 8px;
+}
+
+
+
+/************ Form ************/
+
+#celebrity-input {
+	width: 300px;
+}
+
+#add-celebrity {
+	margin-top: 5px;
+	border-radius: 5px;
+	color: #fff;
+	background-color: #001d4c;
+	padding: 8px;
+}
+
+
+
+/************ Gifs ************/
+
+img { 
+	height: 150px;
+	display: inline-block;
+/*	margin-left: 20px;
+	margin-top: 20px;*/
+ }
+
+.gifDiv p {
+	display: inline-block;
+	padding: 10px;
+}
+
+.gifDiv img {
+	display: block;
+}
+
+
