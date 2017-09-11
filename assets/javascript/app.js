@@ -49,6 +49,7 @@ $(document).on("click", ".celebrity-button", function() {
 	});
 });
 
+
 // Change the data-state and img src when data-state is set to still and animate
 $(document).on("click", ".gifImage", function() {
 	var state = $(this).attr("data-state");
@@ -86,6 +87,7 @@ $(document).on("click", ".gifImage", function() {
 
 	} // End renderButton function
 
+
 	$("#add-celebrity").on("click", function(event) {
     event.preventDefault(); // Prevents the browser from refreshing when submit button is clicked
 		// Obtain value of text input field
@@ -93,12 +95,12 @@ $(document).on("click", ".gifImage", function() {
 
 		// If the text input isn't blank, add the input to the array and render buttons
 		if(newCelebrity !== "") { 
-		// Push that new value into the celebrities array
-		celebrities.push(newCelebrity);
-		// Loop through the array of celebrities to create buttons with the new celebrity added
-		renderButtons();
-		// Empty the text of the input after buttons are rendered
-		$("#celebrity-input").val("");
+			// Push that new value into the celebrities array
+			celebrities.push(newCelebrity);
+			// Loop through the array of celebrities to create buttons with the new celebrity added
+			renderButtons();
+			// Empty the text of the input after buttons are rendered
+			$("#celebrity-input").val("");
 		}
 
 	});
