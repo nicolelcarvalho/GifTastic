@@ -32,6 +32,10 @@ a {
 	padding: 8px;
 }
 
+.celebrity-button:hover {
+	background-color: #fff;
+	color: #001d4c;
+}
 
 
 /************ Form ************/
@@ -55,6 +59,7 @@ a {
 .celebrityGif {
 	display: inline-block;
 	padding: 5px;
+	cursor: pointer;
 }
 
 .celebrityGif img {
