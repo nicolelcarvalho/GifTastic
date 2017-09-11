@@ -32,7 +32,7 @@ a {
 	padding: 8px;
 }
 
-.celebrity-button:hover {
+.celebrity-button:hover, #add-celebrity:hover {
 	background-color: #fff;
 	color: #001d4c;
 }
