@@ -1,67 +1,69 @@
 
 // Initial array of celebrities
-var celebrities = ["Adam Sandler", "Mark Wahlberg", "Bruce Springsteen", "Ellen DeGeneres", "Chris Rock", "Sofia Vergara", "Kenny Chesney", "Amy Schumer", "Leonardo DiCaprio", "Britney Spears", "Jennifer Lopez", "Tiger Woods", "Brad Pitt", "George Clooney", "Frank Sinatra", "Angelina Jolie", "Will Smith"];
+var celebrities = ["Ellen DeGeneres", "Adam Sandler", "Mark Wahlberg", "Bruce Springsteen", "Chris Rock", "Sofia Vergara", "Kenny Chesney", "Amy Schumer", "Leonardo DiCaprio", "Britney Spears", "Jennifer Lopez", "Tiger Woods", "Brad Pitt", "George Clooney", "Frank Sinatra", "Will Smith"];
 
 
-	// Create an AJAX request to obtain celebrity GIF for a specific celebrity button
-	function displayCelebrityGif() { 
-	// Get the data attribute for the specific celebrity button that the user requests
-	var requestedCelebrity = $(this).attr("data-name");
-	// queryURL for Giphy API (limit requested GIFs to 10)
-	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + requestedCelebrity + "&api_key=dc6zaTOxFJmzC&limit=10";
-	// AJAX request to obtain celebrity GIF
-		$.ajax ({
-			url: queryURL,
-			method: "GET"
-		}).done(function(response) {
-			console.log("full response: ", response);
+// When any button is clicked
+$(document).on("click", ".celebrity-button", function() {
+	$("#gifs-view").empty();
+	// Get the data attribute value of the button clicked
+	var celebrity = $(this).attr("data-name");
 
-			// Create a div to append each GIF to
-			var gifs = $("<div>").addClass("gifDiv");
+	// Add the celebrity's name to the queryURL
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + celebrity + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-			// Get the info for 10 GIFs by looping through the response.data array
-			for (var i = 0; i < response.data.length; i++) {
+	// Create an AJAX request to request the gifs and gif ratings of that celebrity
+	$.ajax( {
+		url: queryURL,
+		method: "GET"
+	})
+	.done(function(response) {
 
+		var gifs = response.data;
 
-				// Get the rating of the GIF
-				var gifRatingValue = response.data[i].rating;
-				// Create an element to hold the requested GIF rating
-				var gifRating = $("<p>").html("Rating: " + gifRatingValue);
-				gifRating.addClass("celebrity-gif");
-				// Append the GIF rating to the gif
-				gifs.append(gifRating);
+		// Loop through the 10 gifs that were requested
+		for (var i = 0; i < gifs.length; i++) {
+			var gifDiv = $("<div class='celebrityGif'>");
+			// Get the rating and store it in a variable
+			var rating = gifs[i].rating;
+			// Create a p element to write the rating to html
+			var p = $("<p>").text("Rating: " + rating);
+			// Create an img div to store the img 
+			var gifImage = $("<img>").addClass("gifImage");
+			// Add the src to the image
+			gifImage.attr("src", gifs[i].images.downsized_still.url);
+			// Add an attribute to state that the image is still
+			gifImage.attr("data-state", "still");
+			// Add the src for data-still
+			gifImage.attr("data-still", gifs[i].images.downsized_still.url);
+			// Add the src for data-animate
+			gifImage.attr("data-animate", gifs[i].images.downsized.url);
 
+			// Append the rating and the gif to the gif div
+			gifDiv.prepend(p);
+			gifDiv.append(gifImage);
 
-				// Get the still image url of the requested GIF
-				var gifStillURL = response.data[i].images.downsized_still.url;
-				// Create an element to hold the requested GIF image and add the URL attribute to it
-				var gifStill = $("<img>").attr("src", gifStillURL);
-				gifStill.addClass("gifStill");
-				// Append the still image to the gifRating div
-				gifRating.append(gifStill);
-			}
+			// Append the gif div to the page
+			$("#gifs-view").prepend(gifDiv);
+		}
+	});
+});
 
+// Change the data-state and img src when data-state is set to still and animate
+$(document).on("click", ".gifImage", function() {
+	var state = $(this).attr("data-state");
+	console.log(state);
 
-			$(document).on("click", ".celebrity-gif", function() { 
-				// Get the index of the clickedGif
-				var clickedGif = $(this).index();
-				console.log(clickedGif);
-				console.log($(this));
+	if(state === "still") {
+		$(this).attr("data-state", "animate");
+		$(this).attr("src", $(this).attr("data-animate"));
+	}
+	else {
+    $(this).attr("data-state", "still"); 
+    $(this).attr("src", $(this).attr("data-still"));
+	}
+});
 
-					// Get the URL of the moving GIF basd on the clickedGif index
-					var gifMovingURL = response.data[clickedGif].images.downsized.url;
-					// Create an element to hold the requested GIF image and add the URL attribute to the gifImage
-					var gifMoving = $("<img>").attr("src", gifMovingURL);
-					gifMoving.addClass("gifMoving")
-	
-					$(this).html(gifMoving);
-			});
-
-			// Append to the screen
-			$("#gifs-view").html(gifs);
-
-		});
-	} // End displayCelebrityGif function
 
 	// Function to create buttons
 	function renderButtons() {
@@ -98,11 +100,8 @@ var celebrities = ["Adam Sandler", "Mark Wahlberg", "Bruce Springsteen", "Ellen 
 		// Empty the text of the input after buttons are rendered
 		$("#celebrity-input").val("");
 		}
+
 	});
-
-
-// Render AJAX request when celebrity button is clicked
-$(document).on("click", ".celebrity-button", displayCelebrityGif);
 
 
 // Display the original array of buttons
